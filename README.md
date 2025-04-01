@@ -110,3 +110,9 @@ After you click on **Deploy**, AWS will initiate a cloudformation stack which wi
     $finalresponse
     ```
 - The provided Request and Response Mapping Templates can be applied to all AppSync Schema operations.
+
+#### Test the deployed API
+
+There are 2 ways in which you can test the deployed AppSync API with Lambda resolver as a data source:
+1. Test the API directly from the "Queries" section present in the AWS AppSync console.
+2. Import the [Postman](/postman.json) collection in your Postman app and perform the testing in Postman.
