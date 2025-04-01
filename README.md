@@ -17,9 +17,9 @@ The deployed lambda function will offer you the following operations to interact
 8. deleteMany
 9. aggregate
 
-#### Steps for deployment 
+### Steps for deployment 
 
-##### 1) Deploy the SAM App
+#### 1) Deploy the SAM App
 
 1) In your AWS account, go the [Lambda](https://us-east-1.console.aws.amazon.com/lambda/home?region=us-east-1#/functions) console. Click on the **Applications** section present on the right
 
@@ -43,7 +43,7 @@ The deployed lambda function will offer you the following operations to interact
 
 After you click on **Deploy**, AWS will initiate a cloudformation stack which will create a lambda function in your AWS account.
 
-##### 2) Create AppSync API
+#### 2) Create AppSync API
 
 - [Create](https://docs.aws.amazon.com/appsync/latest/devguide/quickstart.html) an AppSync GraphQL API from the AppSync console.
 - Select **“GraphQL APIs”** in the API type section and **“Design from scratch”** in the GraphQL API Data Source section then click on Next.
@@ -111,7 +111,7 @@ After you click on **Deploy**, AWS will initiate a cloudformation stack which wi
     ```
 - The provided Request and Response Mapping Templates can be applied to all AppSync Schema operations.
 
-#### Test the deployed API
+### Test the deployed API
 
 There are 2 ways in which you can test the deployed AppSync API with Lambda resolver as a data source:
 1. Test the API directly from the "Queries" section present in the AWS AppSync console.
