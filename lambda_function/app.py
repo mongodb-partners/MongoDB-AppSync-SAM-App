@@ -48,7 +48,7 @@ class DateTimeEncoder(json.JSONEncoder):
 def lambda_handler(event, context):
     client = None
     try:
-        payload = json.loads(event['body'])
+        payload = event['body']
         client = connect_to_mongodb()
         op = event['rawPath']
         db, coll = DATABASE, COLLECTION

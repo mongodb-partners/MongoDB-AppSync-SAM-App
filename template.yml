@@ -10,7 +10,7 @@ Metadata:
     SpdxLicenseId: Apache-2.0
     LicenseUrl: LICENSE.txt
     ReadmeUrl: README.md
-    Labels: ['MongoDB', 'AppSync', 'GraphQL', 'AWS']
+    Labels: ['MongoDB', 'AppSync', 'GraphQL', 'API']
     HomePageUrl: https://github.com/mongodb-partners/MongoDB-AppSync-SAM-App
     SemanticVersion: 1.0.0
     SourceCodeUrl: https://github.com/mongodb-partners/MongoDB-AppSync-SAM-App
@@ -23,11 +23,9 @@ Parameters:
   Database:
     Type: String
     Description: "Name of the Database"
-    NoEcho: true
   Collection:
     Type: String
     Description: "Name of the Collection"
-    NoEcho: true
 
 Resources:
   MyLambdaFunction:
@@ -43,33 +41,33 @@ Resources:
           DATABASE: !Ref Database
           COLLECTION: !Ref Collection
           AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
-      Role: !GetAtt LambdaExecutionRole.Arn
+      # Role: !GetAtt LambdaExecutionRole.Arn
 
-  LambdaExecutionRole:
-    Type: AWS::IAM::Role
-    Properties: 
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: lambda.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: LambdaExecutionPolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - logs:CreateLogGroup
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-                Resource: "*"
-              - Effect: Allow
-                Action: 
-                  - secretsmanager:GetSecretValue
-                Resource: "*"
+  # LambdaExecutionRole:
+  #   Type: AWS::IAM::Role
+  #   Properties: 
+  #     AssumeRolePolicyDocument:
+  #       Version: '2012-10-17'
+  #       Statement:
+  #         - Effect: Allow
+  #           Principal:
+  #             Service: lambda.amazonaws.com
+  #           Action: sts:AssumeRole
+  #     Policies:
+  #       - PolicyName: LambdaExecutionPolicy
+  #         PolicyDocument:
+  #           Version: '2012-10-17'
+  #           Statement:
+  #             - Effect: Allow
+  #               Action:
+  #                 - logs:CreateLogGroup
+  #                 - logs:CreateLogStream
+  #                 - logs:PutLogEvents
+  #               Resource: "*"
+  #             - Effect: Allow
+  #               Action: 
+  #                 - secretsmanager:GetSecretValue
+  #               Resource: "*"
 
 # Outputs:
 #   LambdaFunction:
