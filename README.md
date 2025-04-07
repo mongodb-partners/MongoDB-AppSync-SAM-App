@@ -114,5 +114,17 @@ After you click on **Deploy**, AWS will initiate a cloudformation stack which wi
 ### Test the deployed API
 
 There are 2 ways in which you can test the deployed AppSync API with Lambda resolver as a data source:
-1. Test the API directly from the "Queries" section present in the AWS AppSync console.
-2. Import the [Postman](/postman.json) collection in your Postman app and perform the testing in Postman.
+#### 1) Test the API directly from the "Queries" section present in the AWS AppSync console.
+If you plan to test your queries from the AppSync console then refer the following sample queries:
+- findOne	
+```
+query MyQuery {
+  findOne(
+    input: "{\"filter\":{\"name\":{\"$regex\":\"Joshua\"}},\"projection\":{\"_id\":0,\"name\":1,\"age\":1,\"likes\":1}}"
+  )
+}
+```
+
+If you want to see all the queries for every operation, click [here](/QUERIES.md).
+
+#### 2) Import the [Postman](/postman.json) collection in your Postman app and perform the testing in Postman.
