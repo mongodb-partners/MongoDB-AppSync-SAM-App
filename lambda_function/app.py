@@ -57,8 +57,9 @@ def lambda_handler(event, context):
             projection = payload['projection'] if 'projection' in payload else {}
             result = {"document": client[db][coll].find_one(filter_op, projection)}
             if result['document'] is not None:
-                if isinstance(result['document']['_id'], ObjectId):
-                    result['document']['_id'] = str(result['document']['_id'])
+                if "_id" in result['document']:
+                    if isinstance(result['document']['_id'], ObjectId):
+                        result['document']['_id'] = str(result['document']['_id'])
 
         elif op == "/find":
             agg_query = []
@@ -80,8 +81,9 @@ def lambda_handler(event, context):
                 
             result = {"documents": list(client[db][coll].aggregate(agg_query))}
             for obj in result['documents']:
-                if isinstance(obj['_id'], ObjectId):
-                    obj['_id'] = str(obj['_id'])
+                if '_id' in obj:
+                    if isinstance(obj['_id'], ObjectId):
+                        obj['_id'] = str(obj['_id'])
                 
         elif op == "/insertOne":
             if "document" not in payload or payload['document'] == {}:
@@ -119,8 +121,9 @@ def lambda_handler(event, context):
                 return error_response("Send a pipeline")
             docs = list(client[db][coll].aggregate(payload['pipeline']))
             for obj in docs:
-                if isinstance(obj['_id'], ObjectId):
-                    obj['_id'] = str(obj['_id'])
+                if '_id' in obj:
+                    if isinstance(obj['_id'], ObjectId):
+                        obj['_id'] = str(obj['_id'])
             result = {"documents": docs}
         
         else:
