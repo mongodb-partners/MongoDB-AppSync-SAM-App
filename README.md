@@ -43,88 +43,16 @@ The deployed lambda function will offer you the following operations to interact
 
 After you click on **Deploy**, AWS will initiate a cloudformation stack which will create a lambda function in your AWS account.
 
-#### 2) Create AppSync API
+6) Check the **Outputs** section in your cloudformation stack, you will find the following artifacts:
 
-- [Create](https://docs.aws.amazon.com/appsync/latest/devguide/quickstart.html) an AppSync GraphQL API from the AppSync console.
-- Select **“GraphQL APIs”** in the API type section and **“Design from scratch”** in the GraphQL API Data Source section then click on Next.
-![alt text](/images/Create_AppSync_API.png)
-- Enter the API name as per your preference and click on Next.
-![alt text](/images/AppSync_API_Name.png)
-- Select **“Create GraphQL resources later”** in the Create a GraphQL type section and click on Next.
-![alt text](/images/Creat_GraphQL_resources_later.png)
-- Review the selections made and click on **Create API**.
-![alt text](/images/Review_Create_AppSync_API.png)
-- Once the AppSync API gets created, click on the **“Schema”** section present on the left side and paste the following schema inside the code block and click on **“Save Schema”** present on top right:
-    ```
-    type Mutation {
-        insertOne(input: AWSJSON!): AWSJSON
-        insertMany(input: AWSJSON!): AWSJSON
-        updateOne(input: AWSJSON!): AWSJSON
-        updateMany(input: AWSJSON!): AWSJSON
-        deleteOne(input: AWSJSON!): AWSJSON
-        deleteMany(input: AWSJSON!): AWSJSON
-    }
-
-    type Query {
-        findOne(input: AWSJSON!): AWSJSON
-        find(input: AWSJSON!): AWSJSON
-        aggregate(input: AWSJSON!): AWSJSON
-    }
-    ```
-- Click on the **“Data Sources”** section present on the left side.
-- Click on **“Create data source”**. Here, we will add the lambda function that we created earlier as a data source for this AppSync API.
-- Enter the data source name as per your preference. Select **“AWS Lambda function”** in the Data source type dropdown. Select the **“Region”** where you have created your lambda function and then select the function searching by its name under the Function section. Click on Create
-![alt text](/images/Create_Data_Source.png)
-- Go back to the **“Schema”** section and under the Resolvers section you will see Mutation and Query. Click **“Attach”** button against any one of the Field(s).
-![alt text](/images/Attach_Data_source.png)
-- Select **“Velocity Template Language (VTL)”** under the Resolver Runtime in Additional Settings and choose the **data source name** from the dropdown in the Data Source section. Click on Create.
-![alt text](/images/Attach_Resolver.png)
-- After you attach the resolver, paste the following piece of code in Request and Response mapping templates and click on Save
-    - Request Mapping Template - 
-    ```
-    #**
-    The value of 'payload' after the template has been evaluated
-    will be passed as the event to AWS Lambda.
-    *#
-    {
-        "version" : "2017-02-28",
-        "operation": "Invoke",
-        "payload": {
-            "method": "POST",
-            "rawPath": "/insertOne",
-            "body": $util.toJson($context.args.input)
-        }
-    }
-    ```
-    Note: You need to update the `rawPath` for the field to which you have attached the resolver. For example, since I attached the resolver to the `insertOne` field in my schema, my rawPath is set to `/insertOne`.
-
-    - Response Mapping Template - 
-    ```
-    ## Parse the body JSON into an array
-    #set($responseBody = $utils.parseJson($context.result.body))
-
-    ## Return the user object
-    #set($finalresponse = $util.toJson($responseBody))
-
-    ## Return final response
-    $finalresponse
-    ```
-- The provided Request and Response Mapping Templates can be applied to all AppSync Schema operations.
+![alt text](/images/CF_Outputs.png)
 
 ### Test the deployed API
 
 There are 2 ways in which you can test the deployed AppSync API with Lambda resolver as a data source:
 #### 1) Test the API directly from the "Queries" section present in the AWS AppSync console.
-If you plan to test your queries from the AppSync console then refer the following sample queries:
-- findOne	
-```
-query MyQuery {
-  findOne(
-    input: "{\"filter\":{\"name\":{\"$regex\":\"Joshua\"}},\"projection\":{\"_id\":0,\"name\":1,\"age\":1,\"likes\":1}}"
-  )
-}
-```
 
-If you want to see all the queries for every operation, click [here](/QUERIES.md).
+The API request and response payloads maintain the structure previously used by [DataAPI](https://www.mongodb.com/docs/atlas/app-services/data-api/openapi)
+If you plan to test your queries from the AppSync console then refer the following sample queries [here](/QUERIES.md).
 
 #### 2) Import the [Postman](/postman.json) collection in your Postman app and perform the testing in Postman.
