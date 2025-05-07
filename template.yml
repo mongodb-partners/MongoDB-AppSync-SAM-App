@@ -20,12 +20,6 @@ Parameters:
     Type: String
     Description: "MongoDB Atlas connection string to be passed during deployment"
     NoEcho: true
-  Database:
-    Type: String
-    Description: "Name of the Database"
-  Collection:
-    Type: String
-    Description: "Name of the Collection"
 
 Resources:
   MongoDBAppSyncLambdaResolver:
@@ -38,8 +32,6 @@ Resources:
       Environment:
         Variables:
           ATLAS_CONNECTION_STRING: !Ref AtlasConnectionString
-          DATABASE: !Ref Database
-          COLLECTION: !Ref Collection
           AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
       # Role: !GetAtt LambdaExecutionRole.Arn
 

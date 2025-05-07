@@ -37,7 +37,7 @@ The deployed lambda function will offer you the following operations to interact
 
 ![alt text](<images/AppSync_App.png>)
 
-5) Enter the name of the application, your MongoDB Atlas Cluster Connection Endpoint, Database name and Collection name then check the acknowledgement box and click on **Deploy**.
+5) Enter the name of the application, your MongoDB Atlas Cluster Connection Endpoint then check the acknowledgement box and click on **Deploy**.
 
 ![alt text](<images/App_Deployment.png>)
 
