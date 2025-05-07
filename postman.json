@@ -1,917 +1,942 @@
 {
-  "info": {
-    "_postman_id": "cf7b8ff2-52f0-4f80-bbb8-a2538b2c74f2",
-    "name": "AppSync x GraphQL Wrapper",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "37904138"
-  },
-  "item": [
-    {
-      "name": "findOne",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "x-api-key",
-            "value": "{{X_API_KEY}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "graphql",
-          "graphql": {
-            "query": "query MyQuery {\n  findOne(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"name\\\":\\\"Television Set\\\"},\\\"projection\\\":{\\\"name\\\":1,\\\"price\\\":1,\\\"available_qty\\\":1}}\"\n  )\n}",
-            "variables": ""
-          }
-        },
-        "url": {
-          "raw": "{{APPSYNC_API_URL}}",
-          "host": ["{{APPSYNC_API_URL}}"]
-        }
-      },
-      "response": [
-        {
-          "name": "success",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "x-api-key",
-                "value": "<Your AppSync API Key>",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "graphql",
-              "graphql": {
-                "query": "query MyQuery {\n  findOne(input: \"{\\\"dataSource\\\":\\\"mongodb-atlas\\\",\\\"database\\\":\\\"appsyncdb\\\",\\\"collection\\\":\\\"users\\\",\\\"filter\\\":{},\\\"projection\\\":{}}\")\n}\n",
-                "variables": ""
-              }
-            },
-            "url": {
-              "raw": "{{APPSYNC_API_URL}}",
-              "host": ["{{APPSYNC_API_URL}}"]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json;charset=UTF-8"
-            },
-            {
-              "key": "Content-Length",
-              "value": "146"
-            },
-            {
-              "key": "Connection",
-              "value": "keep-alive"
-            },
-            {
-              "key": "Date",
-              "value": "Tue, 05 Nov 2024 05:03:52 GMT"
-            },
-            {
-              "key": "x-amzn-appsync-TokensConsumed",
-              "value": "4"
-            },
-            {
-              "key": "x-amzn-RequestId",
-              "value": "6ad569d7-3a5c-4181-a1a2-eafe1248d766"
-            },
-            {
-              "key": "X-Cache",
-              "value": "Miss from cloudfront"
-            },
-            {
-              "key": "Via",
-              "value": "1.1 c1c882811e9bf7ea40b5c5c7bb5a19be.cloudfront.net (CloudFront)"
-            },
-            {
-              "key": "X-Amz-Cf-Pop",
-              "value": "BOM78-P7"
-            },
-            {
-              "key": "X-Amz-Cf-Id",
-              "value": "WOLS5rv9wxmfI9Ui8yzeOu_buWc4ARyUF2LIIe7UP1Z7nccpws18EQ=="
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"data\": {\n        \"findOne\": \"{\\\"document\\\":{\\\"_id\\\":\\\"66f52ee7db7b3cc877b0d358\\\",\\\"name\\\":\\\"Luke Shaw Jr.\\\",\\\"age\\\":20,\\\"likes\\\":[\\\"LB\\\",\\\"wingback\\\"]}}\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "aggregate",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "x-api-key",
-            "value": "{{X_API_KEY}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "graphql",
-          "graphql": {
-            "query": "query MyQuery {\n  aggregate(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"pipeline\\\":[{\\\"$group\\\":{\\\"_id\\\":\\\"$category\\\",\\\"total_price\\\":{\\\"$sum\\\":\\\"$price\\\"},\\\"total_qty\\\":{\\\"$sum\\\":\\\"$available_qty\\\"}}}]}\"\n  )\n}",
-            "variables": ""
-          }
-        },
-        "url": {
-          "raw": "{{APPSYNC_API_URL}}",
-          "host": ["{{APPSYNC_API_URL}}"]
-        }
-      },
-      "response": [
-        {
-          "name": "success",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "x-api-key",
-                "value": "da2-7br4bu5kuvbs3n2xmgzjnrbu2e",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "graphql",
-              "graphql": {
-                "query": "query MyQuery {\n  aggregate(input: \"{\\\"dataSource\\\":\\\"mongodb-atlas\\\",\\\"database\\\":\\\"sample_mflix\\\",\\\"collection\\\":\\\"movies\\\",\\\"pipeline\\\":[{\\\"$match\\\":{\\\"runtime\\\":{\\\"$gte\\\":50},\\\"year\\\":{\\\"$lte\\\":2000}}},{\\\"$project\\\":{\\\"title\\\":1,\\\"plot\\\":1,\\\"fullplot\\\":1,\\\"languages\\\":1,\\\"cast\\\":1,\\\"directors\\\":1,\\\"year\\\":1}},{\\\"$group\\\":{\\\"_id\\\":\\\"$year\\\",\\\"no_of_movies\\\":{\\\"$sum\\\":1}}},{\\\"$sort\\\":{\\\"no_of_movies\\\":-1}},{\\\"$limit\\\":10}]}\")\n}\n",
-                "variables": ""
-              }
-            },
-            "url": {
-              "raw": "https://txnfmadnujeo5fb2bg5ujygnaa.appsync-api.us-east-1.amazonaws.com/graphql",
-              "protocol": "https",
-              "host": [
-                "txnfmadnujeo5fb2bg5ujygnaa",
-                "appsync-api",
-                "us-east-1",
-                "amazonaws",
-                "com"
-              ],
-              "path": ["graphql"]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json;charset=UTF-8"
-            },
-            {
-              "key": "Content-Length",
-              "value": "402"
-            },
-            {
-              "key": "Connection",
-              "value": "keep-alive"
-            },
-            {
-              "key": "Date",
-              "value": "Tue, 05 Nov 2024 04:55:10 GMT"
-            },
-            {
-              "key": "x-amzn-appsync-TokensConsumed",
-              "value": "1"
-            },
-            {
-              "key": "x-amzn-RequestId",
-              "value": "702c414c-e4b1-4572-8575-5c185a8b2c03"
-            },
-            {
-              "key": "X-Cache",
-              "value": "Miss from cloudfront"
-            },
-            {
-              "key": "Via",
-              "value": "1.1 203faa144da6b24d55d224eb0c02b138.cloudfront.net (CloudFront)"
-            },
-            {
-              "key": "X-Amz-Cf-Pop",
-              "value": "BOM78-P7"
-            },
-            {
-              "key": "X-Amz-Cf-Id",
-              "value": "n5625pgc6WiZ_gu4210Bsdu3LlzbuhMCXsBhaLeLAlLepXcozYWh1Q=="
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"data\": {\n        \"aggregate\": \"{\\\"documents\\\":[{\\\"_id\\\":2000,\\\"no_of_movies\\\":565},{\\\"_id\\\":1998,\\\"no_of_movies\\\":503},{\\\"_id\\\":1999,\\\"no_of_movies\\\":501},{\\\"_id\\\":1997,\\\"no_of_movies\\\":426},{\\\"_id\\\":1996,\\\"no_of_movies\\\":396},{\\\"_id\\\":1995,\\\"no_of_movies\\\":363},{\\\"_id\\\":1994,\\\"no_of_movies\\\":293},{\\\"_id\\\":1993,\\\"no_of_movies\\\":269},{\\\"_id\\\":1992,\\\"no_of_movies\\\":263},{\\\"_id\\\":1988,\\\"no_of_movies\\\":247}]}\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "find",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "x-api-key",
-            "value": "{{X_API_KEY}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "graphql",
-          "graphql": {
-            "query": "query MyQuery {\n  find(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"category\\\":\\\"electronics\\\"},\\\"projection\\\":{\\\"name\\\":1,\\\"price\\\":1,\\\"available_qty\\\":1}}\"\n  )\n}",
-            "variables": ""
-          }
-        },
-        "url": {
-          "raw": "{{APPSYNC_API_URL}}",
-          "host": ["{{APPSYNC_API_URL}}"]
-        }
-      },
-      "response": [
-        {
-          "name": "success",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "x-api-key",
-                "value": "{{X_API_KEY}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "graphql",
-              "graphql": {
-                "query": "query MyQuery {\n  find(input: \"{\\\"dataSource\\\":\\\"mongodb-atlas\\\",\\\"database\\\":\\\"sample_mflix\\\",\\\"collection\\\":\\\"movies\\\",\\\"filter\\\":{},\\\"projection\\\":{\\\"title\\\":1,\\\"directors\\\":1,\\\"released\\\":1},\\\"sort\\\":{\\\"title\\\":-1},\\\"skip\\\":0,\\\"limit\\\":10}\")\n}",
-                "variables": ""
-              }
-            },
-            "url": {
-              "raw": "{{APPSYNC_API_URL}}",
-              "host": ["{{APPSYNC_API_URL}}"]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json;charset=UTF-8"
-            },
-            {
-              "key": "Transfer-Encoding",
-              "value": "chunked"
-            },
-            {
-              "key": "Connection",
-              "value": "keep-alive"
-            },
-            {
-              "key": "Date",
-              "value": "Tue, 05 Nov 2024 05:16:35 GMT"
-            },
-            {
-              "key": "x-amzn-RequestId",
-              "value": "b0b48cad-d982-47b9-9acc-4683145bee15"
-            },
-            {
-              "key": "x-amzn-appsync-TokensConsumed",
-              "value": "5"
-            },
-            {
-              "key": "content-encoding",
-              "value": "gzip"
-            },
-            {
-              "key": "vary",
-              "value": "accept-encoding"
-            },
-            {
-              "key": "X-Cache",
-              "value": "Miss from cloudfront"
-            },
-            {
-              "key": "Via",
-              "value": "1.1 284eb977ec5d32f9a30f1c02fc454194.cloudfront.net (CloudFront)"
-            },
-            {
-              "key": "X-Amz-Cf-Pop",
-              "value": "BOM78-P7"
-            },
-            {
-              "key": "X-Amz-Cf-Id",
-              "value": "hQfv0nSTox5mY9_0eaeYM5_P5DbQkUppeZE-XjeFy0L5PniPehlsTQ=="
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"data\": {\n        \"find\": \"{\\\"documents\\\":[{\\\"_id\\\":\\\"573a139af29313caabcf05c0\\\",\\\"title\\\":\\\"èxtasis\\\",\\\"released\\\":\\\"1996-02-16T00:00:00\\\",\\\"directors\\\":[\\\"Mariano Barroso\\\"]},{\\\"_id\\\":\\\"573a13d1f29313caabd90005\\\",\\\"title\\\":\\\"èvocateur: The Morton Downey Jr. Movie\\\",\\\"released\\\":\\\"2013-06-07T00:00:00\\\",\\\"directors\\\":[\\\"Seth Kramer\\\",\\\"Daniel A. Miller\\\",\\\"Jeremy Newberger\\\"]},{\\\"_id\\\":\\\"573a13b2f29313caabd39c6b\\\",\\\"title\\\":\\\"èrido Movie\\\",\\\"released\\\":\\\"2006-04-14T00:00:00\\\",\\\"directors\\\":[\\\"Lèrio Ferreira\\\"]},{\\\"_id\\\":\\\"573a13b0f29313caabd32ca8\\\",\\\"title\\\":\\\"èon Flux\\\",\\\"released\\\":\\\"2005-12-02T00:00:00\\\",\\\"directors\\\":[\\\"Karyn Kusama\\\"]},{\\\"_id\\\":\\\"573a139af29313caabcef1cc\\\",\\\"title\\\":\\\"èlisa\\\",\\\"released\\\":\\\"1995-02-01T00:00:00\\\",\\\"directors\\\":[\\\"Jean Becker\\\"]},{\\\"_id\\\":\\\"573a13eef29313caabdd4d72\\\",\\\"title\\\":\\\"èkte vare\\\",\\\"released\\\":\\\"2014-05-08T00:00:00\\\",\\\"directors\\\":[\\\"Fenar Ahmad\\\"]},{\\\"_id\\\":\\\"573a1398f29313caabce9572\\\",\\\"title\\\":\\\"èke och hans vèrld\\\",\\\"released\\\":\\\"1984-10-26T00:00:00\\\",\\\"directors\\\":[\\\"Allan Edwall\\\"]},{\\\"_id\\\":\\\"573a1398f29313caabceabb9\\\",\\\"title\\\":\\\"èdipussi\\\",\\\"released\\\":\\\"1988-03-10T00:00:00\\\",\\\"directors\\\":[\\\"Vicco von Bèlow\\\"]},{\\\"_id\\\":\\\"573a13d1f29313caabd8f33f\\\",\\\"title\\\":\\\"èber uns das All\\\",\\\"released\\\":\\\"2011-09-15T00:00:00\\\",\\\"directors\\\":[\\\"Jan Schomburg\\\"]},{\\\"_id\\\":\\\"573a13d0f29313caabd8b2f5\\\",\\\"title\\\":\\\"èVivan las Antipodas!\\\",\\\"released\\\":\\\"2012-02-23T00:00:00\\\",\\\"directors\\\":[\\\"Victor Kossakovsky\\\"]}]}\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "insertOne",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "x-api-key",
-            "value": "{{X_API_KEY}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "graphql",
-          "graphql": {
-            "query": "mutation MyMutation {\n  insertOne(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"document\\\":{\\\"name\\\":\\\"Home Theatre\\\",\\\"price\\\":1000,\\\"available_qty\\\":20,\\\"category\\\":\\\"electronics\\\"}}\"\n  )\n}",
-            "variables": ""
-          }
-        },
-        "url": {
-          "raw": "{{APPSYNC_API_URL}}",
-          "host": ["{{APPSYNC_API_URL}}"]
-        }
-      },
-      "response": [
-        {
-          "name": "success",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "x-api-key",
-                "value": "{{X_API_KEY}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "graphql",
-              "graphql": {
-                "query": "mutation MyMutation {\n  insertOne(input: \"{\\\"dataSource\\\":\\\"mongodb-atlas\\\",\\\"database\\\":\\\"appsyncdb\\\",\\\"collection\\\":\\\"users\\\",\\\"document\\\":{\\\"name\\\":\\\"BrunoFernandes\\\",\\\"age\\\":32,\\\"likes\\\":[\\\"CAM\\\",\\\"attack\\\"]}}\")\n}\n",
-                "variables": ""
-              }
-            },
-            "url": {
-              "raw": "{{APPSYNC_API_URL}}",
-              "host": ["{{APPSYNC_API_URL}}"]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json;charset=UTF-8"
-            },
-            {
-              "key": "Content-Length",
-              "value": "70"
-            },
-            {
-              "key": "Connection",
-              "value": "keep-alive"
-            },
-            {
-              "key": "Date",
-              "value": "Tue, 05 Nov 2024 06:26:01 GMT"
-            },
-            {
-              "key": "x-amzn-appsync-TokensConsumed",
-              "value": "1"
-            },
-            {
-              "key": "x-amzn-RequestId",
-              "value": "2544636e-4e41-45a1-af0d-d413320faea3"
-            },
-            {
-              "key": "X-Cache",
-              "value": "Miss from cloudfront"
-            },
-            {
-              "key": "Via",
-              "value": "1.1 8566d2303df7a45cc1d2b48730f0375e.cloudfront.net (CloudFront)"
-            },
-            {
-              "key": "X-Amz-Cf-Pop",
-              "value": "BOM78-P7"
-            },
-            {
-              "key": "X-Amz-Cf-Id",
-              "value": "9a-DrrCbmFbRgqpOjRlqcVPyeFGp8NUBegLuFjDGc2_dOSp-u1zG-Q=="
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"data\": {\n        \"insertOne\": \"{\\\"insertedId\\\":\\\"6729ba79f0377f2379e8ac6c\\\"}\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "insertMany",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "x-api-key",
-            "value": "{{X_API_KEY}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "graphql",
-          "graphql": {
-            "query": "mutation MyMutation {\n  insertMany(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"documents\\\":[{\\\"name\\\":\\\"Study Table\\\",\\\"price\\\":800,\\\"available_qty\\\":50,\\\"category\\\":\\\"home\\\"},{\\\"name\\\":\\\"Laptop\\\",\\\"price\\\":1200,\\\"available_qty\\\":30,\\\"category\\\":\\\"electronics\\\"}]}\"\n  )\n}",
-            "variables": ""
-          }
-        },
-        "url": {
-          "raw": "{{APPSYNC_API_URL}}",
-          "host": ["{{APPSYNC_API_URL}}"]
-        }
-      },
-      "response": [
-        {
-          "name": "success",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "x-api-key",
-                "value": "{{X_API_KEY}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "graphql",
-              "graphql": {
-                "query": "mutation MyMutation {\n  insertMany(input: \"{\\\"dataSource\\\":\\\"mongodb-atlas\\\",\\\"database\\\":\\\"appsyncdb\\\",\\\"collection\\\":\\\"users\\\",\\\"documents\\\":[{\\\"name\\\":\\\"RasmusHojlund\\\",\\\"age\\\":24,\\\"likes\\\":[\\\"ST\\\",\\\"attack\\\"]},{\\\"name\\\":\\\"JoshuaZirkzee\\\",\\\"age\\\":23,\\\"likes\\\":[\\\"ST\\\",\\\"attack\\\"]}]}\")\n}\n",
-                "variables": ""
-              }
-            },
-            "url": {
-              "raw": "{{APPSYNC_API_URL}}",
-              "host": ["{{APPSYNC_API_URL}}"]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json;charset=UTF-8"
-            },
-            {
-              "key": "Content-Length",
-              "value": "103"
-            },
-            {
-              "key": "Connection",
-              "value": "keep-alive"
-            },
-            {
-              "key": "Date",
-              "value": "Tue, 05 Nov 2024 06:25:34 GMT"
-            },
-            {
-              "key": "x-amzn-appsync-TokensConsumed",
-              "value": "5"
-            },
-            {
-              "key": "x-amzn-RequestId",
-              "value": "ea5f64e5-5a54-47ea-a23d-e25e61901de0"
-            },
-            {
-              "key": "X-Cache",
-              "value": "Miss from cloudfront"
-            },
-            {
-              "key": "Via",
-              "value": "1.1 900cf026915b3058751077ebbcf026e6.cloudfront.net (CloudFront)"
-            },
-            {
-              "key": "X-Amz-Cf-Pop",
-              "value": "BOM78-P7"
-            },
-            {
-              "key": "X-Amz-Cf-Id",
-              "value": "8WsMETA23xDtrc1v6lLrTju88SNctE3-CCCZnOKT1zkjLRQKRKVf0w=="
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"data\": {\n        \"insertMany\": \"{\\\"insertedIds\\\":[\\\"6729ba5ef0377f2379e8ac69\\\",\\\"6729ba5ef0377f2379e8ac6a\\\"]}\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "updateOne",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "x-api-key",
-            "value": "{{X_API_KEY}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "graphql",
-          "graphql": {
-            "query": "mutation MyMutation {\n  updateOne(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"name\\\":\\\"Television Set\\\"},\\\"update\\\":{\\\"$set\\\":{\\\"price\\\":450,\\\"available_qty\\\":45}}}\"\n  )\n}",
-            "variables": ""
-          }
-        },
-        "url": {
-          "raw": "{{APPSYNC_API_URL}}",
-          "host": ["{{APPSYNC_API_URL}}"]
-        }
-      },
-      "response": [
-        {
-          "name": "success",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "x-api-key",
-                "value": "{{X_API_KEY}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "graphql",
-              "graphql": {
-                "query": "mutation MyMutation {\n  updateOne(input: \"{\\\"dataSource\\\":\\\"mongodb-atlas\\\",\\\"database\\\":\\\"appsyncdb\\\",\\\"collection\\\":\\\"users\\\",\\\"filter\\\":{\\\"_id\\\":\\\"6729ba79f0377f2379e8ac6c\\\"},\\\"update\\\":{\\\"$set\\\":{\\\"name\\\":\\\"FernandesJr.\\\"}}}\")\n}\n",
-                "variables": ""
-              }
-            },
-            "url": {
-              "raw": "{{APPSYNC_API_URL}}",
-              "host": ["{{APPSYNC_API_URL}}"]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json;charset=UTF-8"
-            },
-            {
-              "key": "Content-Length",
-              "value": "65"
-            },
-            {
-              "key": "Connection",
-              "value": "keep-alive"
-            },
-            {
-              "key": "Date",
-              "value": "Tue, 05 Nov 2024 06:27:41 GMT"
-            },
-            {
-              "key": "x-amzn-appsync-TokensConsumed",
-              "value": "1"
-            },
-            {
-              "key": "x-amzn-RequestId",
-              "value": "ab5488ba-6ab6-47d8-a55b-71d1535f0911"
-            },
-            {
-              "key": "X-Cache",
-              "value": "Miss from cloudfront"
-            },
-            {
-              "key": "Via",
-              "value": "1.1 ed0b755bd20130e14043a7978ab0cc1c.cloudfront.net (CloudFront)"
-            },
-            {
-              "key": "X-Amz-Cf-Pop",
-              "value": "BOM78-P7"
-            },
-            {
-              "key": "X-Amz-Cf-Id",
-              "value": "1SB23Qb8EXiMp-leZutEqxFd92HKJeBDqYaCEnZmliTfRxiRhwpn9g=="
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"data\": {\n        \"updateOne\": \"{\\\"matchedCount\\\":1,\\\"modifiedCount\\\":1}\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "updateMany",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "x-api-key",
-            "value": "{{X_API_KEY}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "graphql",
-          "graphql": {
-            "query": "mutation MyMutation {\n  updateMany(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"category\\\":\\\"electronics\\\"},\\\"update\\\":{\\\"$inc\\\":{\\\"available_qty\\\":30}}}\"\n  )\n}",
-            "variables": ""
-          }
-        },
-        "url": {
-          "raw": "{{APPSYNC_API_URL}}",
-          "host": ["{{APPSYNC_API_URL}}"]
-        }
-      },
-      "response": [
-        {
-          "name": "success",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "x-api-key",
-                "value": "{{X_API_KEY}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "graphql",
-              "graphql": {
-                "query": "mutation MyMutation {\n  updateMany(input: \"{\\\"dataSource\\\":\\\"mongodb-atlas\\\",\\\"database\\\":\\\"appsyncdb\\\",\\\"collection\\\":\\\"users\\\",\\\"filter\\\":{\\\"likes\\\":\\\"attack\\\"},\\\"update\\\":{\\\"$push\\\":{\\\"likes\\\":\\\"LethalGoals\\\"}}}\")\n}\n",
-                "variables": ""
-              }
-            },
-            "url": {
-              "raw": "{{APPSYNC_API_URL}}",
-              "host": ["{{APPSYNC_API_URL}}"]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json;charset=UTF-8"
-            },
-            {
-              "key": "Content-Length",
-              "value": "66"
-            },
-            {
-              "key": "Connection",
-              "value": "keep-alive"
-            },
-            {
-              "key": "Date",
-              "value": "Tue, 05 Nov 2024 06:29:35 GMT"
-            },
-            {
-              "key": "x-amzn-appsync-TokensConsumed",
-              "value": "1"
-            },
-            {
-              "key": "x-amzn-RequestId",
-              "value": "6af0fa37-749c-4421-a5b2-26add38ab9c2"
-            },
-            {
-              "key": "X-Cache",
-              "value": "Miss from cloudfront"
-            },
-            {
-              "key": "Via",
-              "value": "1.1 a6d0aeb29cc30862fa2c99664ed1a560.cloudfront.net (CloudFront)"
-            },
-            {
-              "key": "X-Amz-Cf-Pop",
-              "value": "BOM78-P7"
-            },
-            {
-              "key": "X-Amz-Cf-Id",
-              "value": "r1JrMSnBk61fUqKRVRSwYyPm-VDEnfDNhU71Eaj3hwFBrqlB8LK0MA=="
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"data\": {\n        \"updateMany\": \"{\\\"matchedCount\\\":6,\\\"modifiedCount\\\":6}\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "deleteOne",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "x-api-key",
-            "value": "{{X_API_KEY}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "graphql",
-          "graphql": {
-            "query": "mutation MyMutation {\n  deleteOne(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"name\\\":\\\"Television Set\\\"}}\"\n  )\n}",
-            "variables": ""
-          }
-        },
-        "url": {
-          "raw": "{{APPSYNC_API_URL}}",
-          "host": ["{{APPSYNC_API_URL}}"]
-        }
-      },
-      "response": [
-        {
-          "name": "success",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "x-api-key",
-                "value": "{{X_API_KEY}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "graphql",
-              "graphql": {
-                "query": "mutation MyMutation {\n  deleteOne(input: \"{\\\"dataSource\\\":\\\"mongodb-atlas\\\",\\\"database\\\":\\\"appsyncdb\\\",\\\"collection\\\":\\\"users\\\",\\\"filter\\\":{\\\"_id\\\":\\\"6729ba79f0377f2379e8ac6c\\\"}}\")\n}\n",
-                "variables": ""
-              }
-            },
-            "url": {
-              "raw": "{{APPSYNC_API_URL}}",
-              "host": ["{{APPSYNC_API_URL}}"]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json;charset=UTF-8"
-            },
-            {
-              "key": "Content-Length",
-              "value": "45"
-            },
-            {
-              "key": "Connection",
-              "value": "keep-alive"
-            },
-            {
-              "key": "Date",
-              "value": "Tue, 05 Nov 2024 06:31:27 GMT"
-            },
-            {
-              "key": "x-amzn-appsync-TokensConsumed",
-              "value": "1"
-            },
-            {
-              "key": "x-amzn-RequestId",
-              "value": "8a16c07f-2890-41aa-8c55-3e250e42252d"
-            },
-            {
-              "key": "X-Cache",
-              "value": "Miss from cloudfront"
-            },
-            {
-              "key": "Via",
-              "value": "1.1 46f13f7423af61f65fccba926e898b74.cloudfront.net (CloudFront)"
-            },
-            {
-              "key": "X-Amz-Cf-Pop",
-              "value": "BOM78-P7"
-            },
-            {
-              "key": "X-Amz-Cf-Id",
-              "value": "m_-2KNRXq4gJqPMfD_vnOuC3bZKgzqQUaDs5MiSTTeeUMi6LJyMHrw=="
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"data\": {\n        \"deleteOne\": \"{\\\"deletedCount\\\":1}\"\n    }\n}"
-        }
-      ]
-    },
-    {
-      "name": "deleteMany",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "x-api-key",
-            "value": "{{X_API_KEY}}",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "graphql",
-          "graphql": {
-            "query": "mutation MyMutation {\n  deleteMany(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"category\\\":\\\"home\\\"}}\"\n  )\n}",
-            "variables": ""
-          }
-        },
-        "url": {
-          "raw": "{{APPSYNC_API_URL}}",
-          "host": ["{{APPSYNC_API_URL}}"]
-        }
-      },
-      "response": [
-        {
-          "name": "success",
-          "originalRequest": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "x-api-key",
-                "value": "{{X_API_KEY}}",
-                "type": "text"
-              }
-            ],
-            "body": {
-              "mode": "graphql",
-              "graphql": {
-                "query": "mutation MyMutation {\n  deleteMany(input: \"{\\\"dataSource\\\":\\\"mongodb-atlas\\\",\\\"database\\\":\\\"appsyncdb\\\",\\\"collection\\\":\\\"users\\\",\\\"filter\\\":{\\\"name\\\":{\\\"$regex\\\":\\\"Bruno\\\"}}}\")\n}\n",
-                "variables": ""
-              }
-            },
-            "url": {
-              "raw": "{{APPSYNC_API_URL}}",
-              "host": ["{{APPSYNC_API_URL}}"]
-            }
-          },
-          "status": "OK",
-          "code": 200,
-          "_postman_previewlanguage": "json",
-          "header": [
-            {
-              "key": "Content-Type",
-              "value": "application/json;charset=UTF-8"
-            },
-            {
-              "key": "Content-Length",
-              "value": "46"
-            },
-            {
-              "key": "Connection",
-              "value": "keep-alive"
-            },
-            {
-              "key": "Date",
-              "value": "Tue, 05 Nov 2024 06:33:18 GMT"
-            },
-            {
-              "key": "x-amzn-appsync-TokensConsumed",
-              "value": "1"
-            },
-            {
-              "key": "x-amzn-RequestId",
-              "value": "086ece5e-efc2-48fc-af5e-738b17c31a6c"
-            },
-            {
-              "key": "X-Cache",
-              "value": "Miss from cloudfront"
-            },
-            {
-              "key": "Via",
-              "value": "1.1 203faa144da6b24d55d224eb0c02b138.cloudfront.net (CloudFront)"
-            },
-            {
-              "key": "X-Amz-Cf-Pop",
-              "value": "BOM78-P7"
-            },
-            {
-              "key": "X-Amz-Cf-Id",
-              "value": "1V6f9YFV_XdgqjXekkcHZwFs9HpbK4uSIqDO-ZH98xEwx2_KaHci4A=="
-            }
-          ],
-          "cookie": [],
-          "body": "{\n    \"data\": {\n        \"deleteMany\": \"{\\\"deletedCount\\\":2}\"\n    }\n}"
-        }
-      ]
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "exec": [""]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "exec": [""]
-      }
-    }
-  ]
+	"info": {
+		"_postman_id": "cf7b8ff2-52f0-4f80-bbb8-a2538b2c74f2",
+		"name": "Modernize your GraphQL APIs with  MongoDB Atlas and AWS AppSync",
+		"description": "You will have to provide the values of `AppSync API URL` and `API Key` before you start using the API to perform the operations",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37904138"
+	},
+	"item": [
+		{
+			"name": "findOne",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{X_API_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query MyQuery {\n  findOne(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"name\\\":\\\"Study Table\\\"},\\\"projection\\\":{\\\"name\\\":1,\\\"price\\\":1,\\\"available_qty\\\":1}}\"\n  )\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{APPSYNC_API_URL}}",
+					"host": [
+						"{{APPSYNC_API_URL}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{X_API_KEY}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query MyQuery {\n  findOne(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"name\\\":\\\"Study Table\\\"},\\\"projection\\\":{\\\"name\\\":1,\\\"price\\\":1,\\\"available_qty\\\":1}}\"\n  )\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{APPSYNC_API_URL}}",
+							"host": [
+								"{{APPSYNC_API_URL}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "136"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 07 May 2025 10:45:50 GMT"
+						},
+						{
+							"key": "x-amzn-appsync-TokensConsumed",
+							"value": "1"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "f6a5fae9-86ba-4f0b-8907-a56824989bc2"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 02ba81b0c123ad5b8f6204eafe0347aa.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P11"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "2tG1c9UT8YACVtsMmxIH3rxlbtrvIPOGcH8El6--g06x7_CSkQPnrw=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"findOne\": \"{\\\"document\\\":{\\\"_id\\\":\\\"681b39ce970329a5965891ee\\\",\\\"name\\\":\\\"Study Table\\\",\\\"price\\\":800,\\\"available_qty\\\":50}}\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "aggregate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{X_API_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query MyQuery {\n  aggregate(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"pipeline\\\":[{\\\"$group\\\":{\\\"_id\\\":\\\"$category\\\",\\\"total_price\\\":{\\\"$sum\\\":\\\"$price\\\"},\\\"total_qty\\\":{\\\"$sum\\\":\\\"$available_qty\\\"}}}]}\"\n  )\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{APPSYNC_API_URL}}",
+					"host": [
+						"{{APPSYNC_API_URL}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{X_API_KEY}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query MyQuery {\n  aggregate(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"pipeline\\\":[{\\\"$group\\\":{\\\"_id\\\":\\\"$category\\\",\\\"total_price\\\":{\\\"$sum\\\":\\\"$price\\\"},\\\"total_qty\\\":{\\\"$sum\\\":\\\"$available_qty\\\"}}}]}\"\n  )\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{APPSYNC_API_URL}}",
+							"host": [
+								"{{APPSYNC_API_URL}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "928"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 07 May 2025 10:45:57 GMT"
+						},
+						{
+							"key": "x-amzn-appsync-TokensConsumed",
+							"value": "1"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "28443eb8-abaa-418f-9ba4-fe0d7fc87031"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 02ba81b0c123ad5b8f6204eafe0347aa.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P11"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "xYWNj_sjqndBwRwzpFzWgwbsBVqjvUac2a_dAlserz805fL3mZZGNg=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"aggregate\": \"{\\\"documents\\\":[{\\\"_id\\\":\\\"games\\\",\\\"total_price\\\":50,\\\"total_qty\\\":55},{\\\"_id\\\":\\\"beauty\\\",\\\"total_price\\\":35,\\\"total_qty\\\":75},{\\\"_id\\\":\\\"books\\\",\\\"total_price\\\":20,\\\"total_qty\\\":100},{\\\"_id\\\":\\\"outdoors\\\",\\\"total_price\\\":150,\\\"total_qty\\\":30},{\\\"_id\\\":\\\"electronics\\\",\\\"total_price\\\":4679,\\\"total_qty\\\":620},{\\\"_id\\\":\\\"footwear\\\",\\\"total_price\\\":90,\\\"total_qty\\\":60},{\\\"_id\\\":\\\"home\\\",\\\"total_price\\\":800,\\\"total_qty\\\":50},{\\\"_id\\\":\\\"furniture\\\",\\\"total_price\\\":120,\\\"total_qty\\\":85},{\\\"_id\\\":\\\"fashion\\\",\\\"total_price\\\":80,\\\"total_qty\\\":60},{\\\"_id\\\":\\\"clothing\\\",\\\"total_price\\\":145,\\\"total_qty\\\":240},{\\\"_id\\\":\\\"toys\\\",\\\"total_price\\\":15,\\\"total_qty\\\":150},{\\\"_id\\\":\\\"kitchen\\\",\\\"total_price\\\":140,\\\"total_qty\\\":75},{\\\"_id\\\":\\\"accessories\\\",\\\"total_price\\\":45,\\\"total_qty\\\":90},{\\\"_id\\\":\\\"automotive\\\",\\\"total_price\\\":80,\\\"total_qty\\\":60},{\\\"_id\\\":\\\"sports\\\",\\\"total_price\\\":30,\\\"total_qty\\\":120}]}\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "find",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{X_API_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query MyQuery {\n  find(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"category\\\":\\\"electronics\\\"},\\\"projection\\\":{\\\"name\\\":1,\\\"price\\\":1,\\\"available_qty\\\":1}}\"\n  )\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{APPSYNC_API_URL}}",
+					"host": [
+						"{{APPSYNC_API_URL}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{X_API_KEY}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query MyQuery {\n  find(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"category\\\":\\\"electronics\\\"},\\\"projection\\\":{\\\"name\\\":1,\\\"price\\\":1,\\\"available_qty\\\":1}}\"\n  )\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{APPSYNC_API_URL}}",
+							"host": [
+								"{{APPSYNC_API_URL}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "737"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 07 May 2025 10:46:04 GMT"
+						},
+						{
+							"key": "x-amzn-appsync-TokensConsumed",
+							"value": "1"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "178e78ee-6507-4e8f-85c8-c853823bf1ab"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 02ba81b0c123ad5b8f6204eafe0347aa.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P11"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "yf-X9iqD2oBNemT101TeLtl3qhstdQ9wJnWVyvfhJhFIaTF8puTaNw=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"find\": \"{\\\"documents\\\":[{\\\"_id\\\":\\\"681afd728fb64f83edb34a96\\\",\\\"name\\\":\\\"Smart Watch\\\",\\\"price\\\":199,\\\"available_qty\\\":100},{\\\"_id\\\":\\\"681afd728fb64f83edb34a97\\\",\\\"name\\\":\\\"Gaming Mousepad\\\",\\\"price\\\":20,\\\"available_qty\\\":230},{\\\"_id\\\":\\\"681afd728fb64f83edb34a9d\\\",\\\"name\\\":\\\"Bluetooth Earbuds\\\",\\\"price\\\":60,\\\"available_qty\\\":130},{\\\"_id\\\":\\\"681b039e83cb90b90b3844b5\\\",\\\"name\\\":\\\"Home Theatre\\\",\\\"price\\\":1000,\\\"available_qty\\\":50},{\\\"_id\\\":\\\"681b03ec83cb90b90b3844b7\\\",\\\"name\\\":\\\"Laptop\\\",\\\"price\\\":1200,\\\"available_qty\\\":60},{\\\"_id\\\":\\\"681b39be970329a5965891ed\\\",\\\"name\\\":\\\"Home Theatre\\\",\\\"price\\\":1000,\\\"available_qty\\\":20},{\\\"_id\\\":\\\"681b39ce970329a5965891ef\\\",\\\"name\\\":\\\"Laptop\\\",\\\"price\\\":1200,\\\"available_qty\\\":30}]}\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "insertOne",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{X_API_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  insertOne(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"document\\\":{\\\"name\\\":\\\"Home Theatre\\\",\\\"price\\\":1000,\\\"available_qty\\\":20,\\\"category\\\":\\\"electronics\\\"}}\"\n  )\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{APPSYNC_API_URL}}",
+					"host": [
+						"{{APPSYNC_API_URL}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{X_API_KEY}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation MyMutation {\n  insertOne(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"document\\\":{\\\"name\\\":\\\"Home Theatre\\\",\\\"price\\\":1000,\\\"available_qty\\\":20,\\\"category\\\":\\\"electronics\\\"}}\"\n  )\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{APPSYNC_API_URL}}",
+							"host": [
+								"{{APPSYNC_API_URL}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "70"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 07 May 2025 10:45:19 GMT"
+						},
+						{
+							"key": "x-amzn-appsync-TokensConsumed",
+							"value": "1"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "cd711006-6113-4106-94ee-b146e861c2a3"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 9de9245ad27107160de04191e492334c.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P11"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "-m9Fiv8wxjsKXYCzWgyZKo06f9lfmgAB9pnl_vj_NB4zdTZheVkDzw=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"insertOne\": \"{\\\"insertedId\\\":\\\"681b39be970329a5965891ed\\\"}\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "insertMany",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{X_API_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  insertMany(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"documents\\\":[{\\\"name\\\":\\\"Study Table\\\",\\\"price\\\":800,\\\"available_qty\\\":50,\\\"category\\\":\\\"home\\\"},{\\\"name\\\":\\\"Laptop\\\",\\\"price\\\":1200,\\\"available_qty\\\":30,\\\"category\\\":\\\"electronics\\\"}]}\"\n  )\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{APPSYNC_API_URL}}",
+					"host": [
+						"{{APPSYNC_API_URL}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{X_API_KEY}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation MyMutation {\n  insertMany(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"documents\\\":[{\\\"name\\\":\\\"Study Table\\\",\\\"price\\\":800,\\\"available_qty\\\":50,\\\"category\\\":\\\"home\\\"},{\\\"name\\\":\\\"Laptop\\\",\\\"price\\\":1200,\\\"available_qty\\\":30,\\\"category\\\":\\\"electronics\\\"}]}\"\n  )\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{APPSYNC_API_URL}}",
+							"host": [
+								"{{APPSYNC_API_URL}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "103"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 07 May 2025 10:45:34 GMT"
+						},
+						{
+							"key": "x-amzn-appsync-TokensConsumed",
+							"value": "1"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "01c23264-61f6-41b9-9ebc-af2d84b9eaa7"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 9de9245ad27107160de04191e492334c.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P11"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "NpOOIJNoE2L8IZgPa91lrMbW9ugprc8z9B6vwC5ZrWmeLyOfdssvgg=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"insertMany\": \"{\\\"insertedIds\\\":[\\\"681b39ce970329a5965891ee\\\",\\\"681b39ce970329a5965891ef\\\"]}\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "updateOne",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{X_API_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  updateOne(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"name\\\":\\\"Office Chair\\\"},\\\"update\\\":{\\\"$set\\\":{\\\"price\\\":150,\\\"available_qty\\\":45}}}\"\n  )\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{APPSYNC_API_URL}}",
+					"host": [
+						"{{APPSYNC_API_URL}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{X_API_KEY}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation MyMutation {\n  updateOne(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"name\\\":\\\"Office Chair\\\"},\\\"update\\\":{\\\"$set\\\":{\\\"price\\\":150,\\\"available_qty\\\":45}}}\"\n  )\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{APPSYNC_API_URL}}",
+							"host": [
+								"{{APPSYNC_API_URL}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "65"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 07 May 2025 10:46:57 GMT"
+						},
+						{
+							"key": "x-amzn-appsync-TokensConsumed",
+							"value": "1"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "d7c9f556-d45a-4a09-8cda-37da54e5398f"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 02ba81b0c123ad5b8f6204eafe0347aa.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P11"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "QKCDKRZ5FM2OA1MVHzNYns_GNustkC41nQTntg4qJxBaMD2mXATiSw=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"updateOne\": \"{\\\"matchedCount\\\":1,\\\"modifiedCount\\\":1}\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "updateMany",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{X_API_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  updateMany(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"category\\\":\\\"electronics\\\"},\\\"update\\\":{\\\"$inc\\\":{\\\"available_qty\\\":30}}}\"\n  )\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{APPSYNC_API_URL}}",
+					"host": [
+						"{{APPSYNC_API_URL}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{X_API_KEY}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation MyMutation {\n  updateMany(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"category\\\":\\\"electronics\\\"},\\\"update\\\":{\\\"$inc\\\":{\\\"available_qty\\\":30}}}\"\n  )\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{APPSYNC_API_URL}}",
+							"host": [
+								"{{APPSYNC_API_URL}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "66"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 07 May 2025 10:47:10 GMT"
+						},
+						{
+							"key": "x-amzn-appsync-TokensConsumed",
+							"value": "1"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "fed03001-fa0f-4201-9f5f-8c67fd393f98"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 02ba81b0c123ad5b8f6204eafe0347aa.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P11"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "MLCYCEXhSRSxdq3Fz627XBBcj2Ma0eSmhrOkR0qj_GuwUv2KQ2qGcQ=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"updateMany\": \"{\\\"matchedCount\\\":7,\\\"modifiedCount\\\":7}\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "deleteOne",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{X_API_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  deleteOne(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"_id\\\":\\\"681b39ce970329a5965891ef\\\"}}\"\n  )\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{APPSYNC_API_URL}}",
+					"host": [
+						"{{APPSYNC_API_URL}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{X_API_KEY}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation MyMutation {\n  deleteOne(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"_id\\\":\\\"681b39ce970329a5965891ef\\\"}}\"\n  )\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{APPSYNC_API_URL}}",
+							"host": [
+								"{{APPSYNC_API_URL}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "45"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 07 May 2025 10:48:00 GMT"
+						},
+						{
+							"key": "x-amzn-appsync-TokensConsumed",
+							"value": "1"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "509bf40f-7d37-483b-b8aa-10f12154c490"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 02ba81b0c123ad5b8f6204eafe0347aa.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P11"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "B0uO3tNQTRf5llXmLp_hzUNWMTM7S0KY2Be8K6gR36MRezwb1RQsEA=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"deleteOne\": \"{\\\"deletedCount\\\":1}\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "deleteMany",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "{{X_API_KEY}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  deleteMany(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"category\\\":\\\"home\\\"}}\"\n  )\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{APPSYNC_API_URL}}",
+					"host": [
+						"{{APPSYNC_API_URL}}"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{X_API_KEY}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation MyMutation {\n  deleteMany(\n    input: \"{\\\"database\\\":\\\"inventory\\\",\\\"collection\\\":\\\"products\\\",\\\"filter\\\":{\\\"category\\\":\\\"home\\\"}}\"\n  )\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "{{APPSYNC_API_URL}}",
+							"host": [
+								"{{APPSYNC_API_URL}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json;charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "46"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 07 May 2025 10:48:19 GMT"
+						},
+						{
+							"key": "x-amzn-appsync-TokensConsumed",
+							"value": "1"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "099f9a7c-a0b7-499c-a1ca-0cf3a06284ee"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 02ba81b0c123ad5b8f6204eafe0347aa.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "BOM78-P11"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "IRyl2aPAzp2TlJdeJD_Lo7dLP2W4EH5MAQdBFwTN8v1vFHse0hcAbQ=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"deleteMany\": \"{\\\"deletedCount\\\":1}\"\n    }\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
 }

@@ -39,7 +39,7 @@ The deployed lambda function will offer you the following operations to interact
 
 5) Enter the name of the application, your MongoDB Atlas Cluster Connection Endpoint then check the acknowledgement box and click on **Deploy**.
 
-![alt text](<images/App_Deployment.png>)
+![alt text](<images/App_Deployment_1.png>)
 
 After you click on **Deploy**, AWS will initiate a cloudformation stack which will create a lambda function in your AWS account.
 
