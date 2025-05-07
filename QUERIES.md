@@ -2,13 +2,15 @@
 
 Go to the "**Queries**" section of your AppSync API in the AWS console to test the queries.
 
+You can find a sample of 20 documents [here](/sample_documents.json) that you can insert in your DB and perform the below operations for a POC/POV of this solution.
+
 The JSON input for these queries must be formatted using an escape sequence, as demonstrated in the example below.
 
 - findOne:
 ```
 query MyQuery {
   findOne(
-    input: "{\"filter\":{\"name\":{\"$regex\":\"Joshua\"}},\"projection\":{\"_id\":0,\"name\":1,\"age\":1,\"likes\":1}}"
+    input: "{\"database\":\"inventory\",\"collection\":\"products\",\"filter\":{\"name\":\"Television Set\"},\"projection\":{\"name\":1,\"price\":1,\"available_qty\":1}}"
   )
 }
 ```
@@ -16,8 +18,8 @@ query MyQuery {
 - find:
 ```
 query MyQuery {
- find(
-    input: "{   \"filter\": {\"name\": {\"$regex\": \"Joshua\"}},   \"projection\": {\"_id\": 0, \"name\": 1, \"age\": 1, \"likes\": 1} }"
+  find(
+    input: "{\"database\":\"inventory\",\"collection\":\"products\",\"filter\":{\"category\":\"electronics\"},\"projection\":{\"name\":1,\"price\":1,\"available_qty\":1}}"
   )
 }
 ```
@@ -26,7 +28,7 @@ query MyQuery {
 ```
 query MyQuery {
   aggregate(
-    input: "{\"pipeline\":[{\"$match\":{\"runtime\":{\"$gte\":50},\"year\":{\"$lte\":2000}}},{\"$project\":{\"title\":1,\"plot\":1,\"fullplot\":1,\"languages\":1,\"cast\":1,\"directors\":1,\"year\":1}},{\"$group\":{\"_id\":\"$year\",\"no_of_movies\":{\"$sum\":1}}},{\"$sort\":{\"no_of_movies\":-1}},{\"$limit\":10}]}"
+    input: "{\"database\":\"inventory\",\"collection\":\"products\",\"pipeline\":[{\"$group\":{\"_id\":\"$category\",\"total_price\":{\"$sum\":\"$price\"},\"total_qty\":{\"$sum\":\"$available_qty\"}}}]}"
   )
 }
 ```
@@ -35,7 +37,7 @@ query MyQuery {
 ```
 mutation MyMutation {
   insertOne(
-    input: "{\"document\":{\"name\":\"Diogo Dalot\",\"age\":28,\"likes\":[\"LB\",\"RB\",\"wings\"]}}"
+    input: "{\"database\":\"inventory\",\"collection\":\"products\",\"document\":{\"name\":\"Home Theatre\",\"price\":1000,\"available_qty\":20,\"category\":\"electronics\"}}"
   )
 }
 ```
@@ -44,7 +46,7 @@ mutation MyMutation {
 ```
 mutation MyMutation {
   insertMany(
-    input: "{\"documents\":[{\"name\":\"Alejandro Garnacho\",\"age\":22,\"likes\":[\"LW\",\"wing\"]},{\"name\":\"Christian Eriksen\",\"age\":32,\"likes\":[\"MD\",\"CDM\"]}]}"
+    input: "{\"database\":\"inventory\",\"collection\":\"products\",\"documents\":[{\"name\":\"Study Table\",\"price\":800,\"available_qty\":50,\"category\":\"home\"},{\"name\":\"Laptop\",\"price\":1200,\"available_qty\":30,\"category\":\"electronics\"}]}"
   )
 }
 ```
@@ -53,7 +55,7 @@ mutation MyMutation {
 ```
 mutation MyMutation {
   updateOne(
-    input: "{\"filter\":{\"_id\":\"67f364e4193e70832a6dedcb\"},\"update\":{\"$set\":{\"name\":\"Eriksen Jr.\"}}}"
+    input: "{\"database\":\"inventory\",\"collection\":\"products\",\"filter\":{\"name\":\"Television Set\"},\"update\":{\"$set\":{\"price\":450,\"available_qty\":45}}}"
   )
 }
 ```
@@ -62,7 +64,7 @@ mutation MyMutation {
 ```
 mutation MyMutation {
   updateMany(
-    input: "{\"filter\":{\"likes\":\"attack\"},\"update\":{\"$push\":{\"likes\":\"Goal Machine\"}}}"
+    input: "{\"database\":\"inventory\",\"collection\":\"products\",\"filter\":{\"category\":\"electronics\"},\"update\":{\"$inc\":{\"available_qty\":30}}}"
   )
 }
 ```
@@ -70,14 +72,18 @@ mutation MyMutation {
 - deleteOne:
 ```
 mutation MyMutation {
-  deleteOne(input: "{\"filter\":{\"_id\":\"67ebbbc8dba24ffc12ca0022\"}}")
+  deleteOne(
+    input: "{\"database\":\"inventory\",\"collection\":\"products\",\"filter\":{\"name\":\"Television Set\"}}"
+  )
 }
 ```
 
 - deleteMany:
 ```
 mutation MyMutation {
-  deleteMany(input: "{\"filter\":{\"name\":\"BrunoFernandes\"}}")
+  deleteMany(
+    input: "{\"database\":\"inventory\",\"collection\":\"products\",\"filter\":{\"category\":\"home\"}}"
+  )
 }
 ```
 

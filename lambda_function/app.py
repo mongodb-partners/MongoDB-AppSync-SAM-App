@@ -7,16 +7,7 @@ from datetime import datetime
 
 # Environment variables
 ATLAS_CONNECTION_STRING = os.environ['ATLAS_CONNECTION_STRING']
-DATABASE = os.environ['DATABASE']
-COLLECTION = os.environ['COLLECTION']
-
-def connect_to_mongodb():
-    try:
-        client = MongoClient(ATLAS_CONNECTION_STRING)
-        return client
-    except Exception as e: 
-        print(e)
-        return error_response("Not able to connect with Atlas Cluster")
+client = MongoClient(ATLAS_CONNECTION_STRING)
 
 
 def success_response(body):
@@ -46,12 +37,10 @@ class DateTimeEncoder(json.JSONEncoder):
         return super().default(o)
 
 def lambda_handler(event, context):
-    client = None
     try:
         payload = event['body']
-        client = connect_to_mongodb()
         op = event['rawPath']
-        db, coll = DATABASE, COLLECTION
+        db, coll = payload['database'], payload['collection']
         if op == "/findOne":
             filter_op = payload['filter'] if 'filter' in payload else {}
             projection = payload['projection'] if 'projection' in payload else {}
@@ -134,7 +123,3 @@ def lambda_handler(event, context):
     except Exception as e:
         print(traceback.format_exc())
         return error_response(e)
-
-    finally:
-        if client:
-            client.close()

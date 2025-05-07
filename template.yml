@@ -28,7 +28,7 @@ Parameters:
     Description: "Name of the Collection"
 
 Resources:
-  MyLambdaFunction:
+  MongoDBAppSyncLambdaResolver:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: ./lambda_function/
@@ -43,35 +43,388 @@ Resources:
           AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
       # Role: !GetAtt LambdaExecutionRole.Arn
 
-  # LambdaExecutionRole:
-  #   Type: AWS::IAM::Role
-  #   Properties: 
-  #     AssumeRolePolicyDocument:
-  #       Version: '2012-10-17'
-  #       Statement:
-  #         - Effect: Allow
-  #           Principal:
-  #             Service: lambda.amazonaws.com
-  #           Action: sts:AssumeRole
-  #     Policies:
-  #       - PolicyName: LambdaExecutionPolicy
-  #         PolicyDocument:
-  #           Version: '2012-10-17'
-  #           Statement:
-  #             - Effect: Allow
-  #               Action:
-  #                 - logs:CreateLogGroup
-  #                 - logs:CreateLogStream
-  #                 - logs:PutLogEvents
-  #               Resource: "*"
-  #             - Effect: Allow
-  #               Action: 
-  #                 - secretsmanager:GetSecretValue
-  #               Resource: "*"
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaExecutionPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+              - Effect: Allow
+                Action: 
+                  - secretsmanager:GetSecretValue
+                Resource: "*"
 
-# Outputs:
-#   LambdaFunction:
-#     Description: "URL of the API Gateway"
-#     Value: !Sub "https://${MyHttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
-#     Export:
-#       Name: LambdaFunction
+  AppSyncApi:
+    Type: AWS::AppSync::GraphQLApi
+    DependsOn:
+      - MongoDBAppSyncLambdaResolver
+    Properties:
+      Name: MongoDB_AppSync_SAM_API
+      AuthenticationType: API_KEY
+  
+  AppSyncServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: AppSyncInvokeLambda
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - lambda:InvokeFunction
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource:
+                  - !GetAtt MongoDBAppSyncLambdaResolver.Arn
+  
+  Schema:
+    Type: AWS::AppSync::GraphQLSchema
+    DependsOn: AppSyncApi
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      DefinitionS3Location: s3://anuj-aws-gp/AppSync-SAM-App/schema.graphql
+  
+  LambdaDataSource:
+    Type: AWS::AppSync::DataSource
+    DependsOn:
+      - AppSyncApi
+      - MongoDBAppSyncLambdaResolver  
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      Name: LambdaDataSource
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn: !GetAtt MongoDBAppSyncLambdaResolver.Arn
+      ServiceRoleArn: !GetAtt AppSyncServiceRole.Arn # AppSync API role will have access
+  
+  # Query Resolvers
+  # Find one resolver
+  QueryResolverFindOne:
+    Type: AWS::AppSync::Resolver
+    DependsOn:
+      - AppSyncApi
+      - MongoDBAppSyncLambdaResolver
+      - LambdaDataSource 
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      TypeName: Query
+      FieldName: findOne
+      DataSourceName: LambdaDataSource
+      RequestMappingTemplate: |
+        {
+          "version" : "2017-02-28",
+          "operation": "Invoke",
+          "payload": {
+            "method": "POST",
+            "rawPath": "/findOne",
+            "body": $util.toJson($context.args.input)
+          }
+        }
+      ResponseMappingTemplate: |
+        ## Parse the body JSON into an array
+        #set($responseBody = $utils.parseJson($context.result.body))
+
+        ## Return the user object
+        #set($finalresponse = $util.toJson($responseBody))
+
+        ## Return final response
+        $finalresponse
+  
+  # Find many resolver
+  QueryResolverFindMany:
+    Type: AWS::AppSync::Resolver
+    DependsOn:
+      - AppSyncApi
+      - MongoDBAppSyncLambdaResolver
+      - LambdaDataSource 
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      TypeName: Query
+      FieldName: find
+      DataSourceName: LambdaDataSource
+      RequestMappingTemplate: |
+        {
+          "version" : "2017-02-28",
+          "operation": "Invoke",
+          "payload": {
+            "method": "POST",
+            "rawPath": "/find",
+            "body": $util.toJson($context.args.input)
+          }
+        }
+      ResponseMappingTemplate: |
+        ## Parse the body JSON into an array
+        #set($responseBody = $utils.parseJson($context.result.body))
+
+        ## Return the user object
+        #set($finalresponse = $util.toJson($responseBody))
+
+        ## Return final response
+        $finalresponse
+  
+  # Aggregate resolver
+  QueryResolverAggregate:
+    Type: AWS::AppSync::Resolver
+    DependsOn:
+      - AppSyncApi
+      - MongoDBAppSyncLambdaResolver
+      - LambdaDataSource 
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      TypeName: Query
+      FieldName: aggregate
+      DataSourceName: LambdaDataSource
+      RequestMappingTemplate: |
+        {
+          "version" : "2017-02-28",
+          "operation": "Invoke",
+          "payload": {
+            "method": "POST",
+            "rawPath": "/aggregate",
+            "body": $util.toJson($context.args.input)
+          }
+        }
+      ResponseMappingTemplate: |
+        ## Parse the body JSON into an array
+        #set($responseBody = $utils.parseJson($context.result.body))
+
+        ## Return the user object
+        #set($finalresponse = $util.toJson($responseBody))
+
+        ## Return final response
+        $finalresponse
+  
+  # Mutation Resolvers
+  # Insert one resolver
+  MutationResolverInsertOne:
+    Type: AWS::AppSync::Resolver
+    DependsOn:
+      - AppSyncApi
+      - MongoDBAppSyncLambdaResolver
+      - LambdaDataSource
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      TypeName: Mutation
+      FieldName: insertOne
+      DataSourceName: LambdaDataSource
+      RequestMappingTemplate: |
+        {
+          "version" : "2017-02-28",
+          "operation": "Invoke",
+          "payload": {
+            "method": "POST",
+            "rawPath": "/insertOne",
+            "body": $util.toJson($context.args.input)
+          }
+        }
+      ResponseMappingTemplate: |
+        ## Parse the body JSON into an array
+        #set($responseBody = $utils.parseJson($context.result.body))
+
+        ## Return the user object
+        #set($finalresponse = $util.toJson($responseBody))
+
+        ## Return final response
+        $finalresponse
+  
+  # Insert many resolver
+  MutationResolverInsertMany:
+    Type: AWS::AppSync::Resolver
+    DependsOn:
+      - AppSyncApi
+      - MongoDBAppSyncLambdaResolver
+      - LambdaDataSource
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      TypeName: Mutation
+      FieldName: insertMany
+      DataSourceName: LambdaDataSource
+      RequestMappingTemplate: |
+        {
+          "version" : "2017-02-28",
+          "operation": "Invoke",
+          "payload": {
+            "method": "POST",
+            "rawPath": "/insertMany",
+            "body": $util.toJson($context.args.input)
+          }
+        }
+      ResponseMappingTemplate: |
+        ## Parse the body JSON into an array
+        #set($responseBody = $utils.parseJson($context.result.body))
+
+        ## Return the user object
+        #set($finalresponse = $util.toJson($responseBody))
+
+        ## Return final response
+        $finalresponse
+  
+  # Update one resolver
+  MutationResolverUpdateOne:
+    Type: AWS::AppSync::Resolver
+    DependsOn:
+      - AppSyncApi
+      - MongoDBAppSyncLambdaResolver
+      - LambdaDataSource
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      TypeName: Mutation
+      FieldName: updateOne
+      DataSourceName: LambdaDataSource
+      RequestMappingTemplate: |
+        {
+          "version" : "2017-02-28",
+          "operation": "Invoke",
+          "payload": {
+            "method": "POST",
+            "rawPath": "/updateOne",
+            "body": $util.toJson($context.args.input)
+          }
+        }
+      ResponseMappingTemplate: |
+        ## Parse the body JSON into an array
+        #set($responseBody = $utils.parseJson($context.result.body))
+
+        ## Return the user object
+        #set($finalresponse = $util.toJson($responseBody))
+
+        ## Return final response
+        $finalresponse
+
+  # Update many resolver
+  MutationResolverUpdateMany:
+    Type: AWS::AppSync::Resolver
+    DependsOn:
+      - AppSyncApi
+      - MongoDBAppSyncLambdaResolver
+      - LambdaDataSource
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      TypeName: Mutation
+      FieldName: updateMany
+      DataSourceName: LambdaDataSource
+      RequestMappingTemplate: |
+        {
+          "version" : "2017-02-28",
+          "operation": "Invoke",
+          "payload": {
+            "method": "POST",
+            "rawPath": "/updateMany",
+            "body": $util.toJson($context.args.input)
+          }
+        }
+      ResponseMappingTemplate: |
+        ## Parse the body JSON into an array
+        #set($responseBody = $utils.parseJson($context.result.body))
+
+        ## Return the user object
+        #set($finalresponse = $util.toJson($responseBody))
+
+        ## Return final response
+        $finalresponse
+  
+  # Delete one resolver
+  MutationResolverDeleteOne:
+    Type: AWS::AppSync::Resolver
+    DependsOn:
+      - AppSyncApi
+      - MongoDBAppSyncLambdaResolver
+      - LambdaDataSource
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      TypeName: Mutation
+      FieldName: deleteOne
+      DataSourceName: LambdaDataSource
+      RequestMappingTemplate: |
+        {
+          "version" : "2017-02-28",
+          "operation": "Invoke",
+          "payload": {
+            "method": "POST",
+            "rawPath": "/deleteOne",
+            "body": $util.toJson($context.args.input)
+          }
+        }
+      ResponseMappingTemplate: |
+        ## Parse the body JSON into an array
+        #set($responseBody = $utils.parseJson($context.result.body))
+
+        ## Return the user object
+        #set($finalresponse = $util.toJson($responseBody))
+
+        ## Return final response
+        $finalresponse
+
+  # Delete many resolver
+  MutationResolverDeleteMany:
+    Type: AWS::AppSync::Resolver
+    DependsOn:
+      - AppSyncApi
+      - MongoDBAppSyncLambdaResolver
+      - LambdaDataSource
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      TypeName: Mutation
+      FieldName: deleteMany
+      DataSourceName: LambdaDataSource
+      RequestMappingTemplate: |
+        {
+          "version" : "2017-02-28",
+          "operation": "Invoke",
+          "payload": {
+            "method": "POST",
+            "rawPath": "/deleteMany",
+            "body": $util.toJson($context.args.input)
+          }
+        }
+      ResponseMappingTemplate: |
+        ## Parse the body JSON into an array
+        #set($responseBody = $utils.parseJson($context.result.body))
+
+        ## Return the user object
+        #set($finalresponse = $util.toJson($responseBody))
+
+        ## Return final response
+        $finalresponse
+  
+  GraphQLApiKey:
+    Type: AWS::AppSync::ApiKey
+    DependsOn: AppSyncApi
+    Properties:
+      ApiId: !GetAtt AppSyncApi.ApiId
+      Description: "API Key for MyAppSyncAPI"
+
+Outputs:
+  LambdaFunction:
+    Description: "ARN of the Lambda Function"
+    Value: !GetAtt MongoDBAppSyncLambdaResolver.Arn
+  GraphQLAPIURL:
+    Description: "The URL of the GraphQL API"
+    Value: !GetAtt AppSyncApi.GraphQLUrl
+  GraphQLAPIKey:
+    Description: "The API Key for the GraphQL API"
+    Value: !GetAtt GraphQLApiKey.ApiKey

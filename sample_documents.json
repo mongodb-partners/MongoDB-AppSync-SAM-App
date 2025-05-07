@@ -1,0 +1,124 @@
+{
+  "documents": [
+    {
+      "name": "Television Set",
+      "price": 400,
+      "available_qty": 50,
+      "category": "electronics"
+    },
+    {
+      "name": "Office Chair",
+      "price": 120,
+      "available_qty": 85,
+      "category": "furniture"
+    },
+    {
+      "name": "Men's T-Shirt",
+      "price": 25,
+      "available_qty": 200,
+      "category": "clothing"
+    },
+    {
+      "name": "Ceramic Dinner Plate",
+      "price": 60,
+      "available_qty": 40,
+      "category": "kitchen"
+    },
+    {
+      "name": "Camping Tent",
+      "price": 150,
+      "available_qty": 30,
+      "category": "outdoors"
+    },
+    {
+      "name": "Children's Toy Car",
+      "price": 15,
+      "available_qty": 150,
+      "category": "toys"
+    },
+    {
+      "name": "The Great Adventure",
+      "price": 20,
+      "available_qty": 100,
+      "category": "books"
+    },
+    {
+      "name": "Women's Handbag",
+      "price": 80,
+      "available_qty": 60,
+      "category": "fashion"
+    },
+    {
+      "name": "Lipstick Set",
+      "price": 35,
+      "available_qty": 75,
+      "category": "beauty"
+    },
+    {
+      "name": "Yoga Mat",
+      "price": 30,
+      "available_qty": 120,
+      "category": "sports"
+    },
+    {
+      "name": "Car Tire",
+      "price": 80,
+      "available_qty": 60,
+      "category": "automotive"
+    },
+    {
+      "name": "Laptop Backpack",
+      "price": 45,
+      "available_qty": 90,
+      "category": "accessories"
+    },
+    {
+      "name": "Smart Watch",
+      "price": 199,
+      "available_qty": 70,
+      "category": "electronics"
+    },
+    {
+      "name": "Gaming Mousepad",
+      "price": 20,
+      "available_qty": 200,
+      "category": "electronics"
+    },
+    {
+      "name": "Strategy Board Game",
+      "price": 50,
+      "available_qty": 55,
+      "category": "games"
+    },
+    {
+      "name": "LED Desk Lamp",
+      "price": 25,
+      "available_qty": 150,
+      "category": "home"
+    },
+    {
+      "name": "Kitchen Knife Set",
+      "price": 80,
+      "available_qty": 35,
+      "category": "kitchen"
+    },
+    {
+      "name": "Waterproof Jacket",
+      "price": 120,
+      "available_qty": 40,
+      "category": "clothing"
+    },
+    {
+      "name": "Sneakers",
+      "price": 90,
+      "available_qty": 60,
+      "category": "footwear"
+    },
+    {
+      "name": "Bluetooth Earbuds",
+      "price": 60,
+      "available_qty": 100,
+      "category": "electronics"
+    }
+  ]
+}
