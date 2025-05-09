@@ -98,7 +98,21 @@ Resources:
     DependsOn: AppSyncApi
     Properties:
       ApiId: !GetAtt AppSyncApi.ApiId
-      DefinitionS3Location: s3://anuj-aws-gp/AppSync-SAM-App/schema.graphql
+      Definition: |
+        type Mutation {
+          deleteMany(input: AWSJSON!): AWSJSON
+          deleteOne(input: AWSJSON!): AWSJSON
+          insertMany(input: AWSJSON!): AWSJSON
+          insertOne(input: AWSJSON!): AWSJSON
+          updateMany(input: AWSJSON!): AWSJSON
+          updateOne(input: AWSJSON!): AWSJSON
+        }
+
+        type Query {
+          aggregate(input: AWSJSON!): AWSJSON
+          find(input: AWSJSON!): AWSJSON
+          findOne(input: AWSJSON!): AWSJSON
+        }
   
   LambdaDataSource:
     Type: AWS::AppSync::DataSource
