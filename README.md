@@ -4,7 +4,7 @@ This repository contains a way to interact with the data residing in your MongoD
 
 ### Overview
 
-This project leverages the Serverless Application Model (SAM) to deploy a serverless application in your AWS account. It utilizes AWS Lambda as a serverless function that contains the logic to interact with your MongoDB cluster. In addition to the lambda function, you will have to setup an AppSync API from the AWS Console that you will use on top of the lambda function to query your data in MongoDB.
+This project leverages the Serverless Application Model (SAM) to deploy a serverless application in your AWS account. It utilizes AWS Lambda as a serverless function that contains the logic to interact with your MongoDB cluster. In addition to the lambda function, it will setup an AppSync API in the AWS Console that you will use on top of the lambda function to query your data in MongoDB.
 
 The deployed lambda function will offer you the following operations to interact with your data residing in MongoDB:
 1. findOne
@@ -16,6 +16,10 @@ The deployed lambda function will offer you the following operations to interact
 7. deleteOne
 8. deleteMany
 9. aggregate
+
+### Architecture
+
+![alt text](/images/AppSync%20x%20DataAPI.png)
 
 ### Steps for deployment 
 
